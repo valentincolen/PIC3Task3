@@ -1,0 +1,33 @@
+<h2>Historical Users</h2>
+
+<table border="1">
+    <tbody>
+    <tr>
+        <th>Username</th>
+        <th>Fullname</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>nfc_id</th>
+        <th>User_flow</th>
+
+    </tr>
+
+    {% for row in historical_users %}
+    {% set n = namespace(found=0)%}
+    <tr>
+        {% for cell in row %}
+        <td>
+            {% if n.found == 0 %}
+            <a href="/show_users/{{row[0]}}">{{cell}}</a>
+            {% else %}
+            <a>{{cell}}</a>
+            {% endif %}
+            {% set n.found =  1%}
+
+        </td>
+
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

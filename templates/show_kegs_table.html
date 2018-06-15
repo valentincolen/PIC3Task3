@@ -1,0 +1,29 @@
+<h2>Historical Kegs</h2>
+
+<table border="1">
+    <tbody>
+    <tr>
+        <th>keg_ID</th>
+        <th>keg_Flow</th>
+
+
+    </tr>
+    {% for row in historical_kegs %}
+    {% set n = namespace(found=0)%}
+    <tr>
+        {% for cell in row %}
+
+        <td>
+            {% if n.found == 0 %}
+            <a href="/show_kegs/{{row[0]}}">{{cell}}</a>
+            {% else %}
+            <a>{{cell}}</a>
+            {% endif %}
+            {% set n.found =  1%}
+        </td>
+
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

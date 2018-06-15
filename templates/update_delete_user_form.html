@@ -1,0 +1,29 @@
+<h2>Update or delete Users</h2>
+
+<table border="1">
+    <tbody>
+    <tr>
+        <th>Username</th>
+        <th>Fullname</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>nfc_id</th>
+        <th>User_flow</th>
+    </tr>
+
+    <tr>
+
+        <form action="/show_users/{{user[0][0]}}/delete_update">
+            <td><input name="user" type="text" value={{user[0][0]}}></td>
+            <td><input name="fullname" type="text" value={{user[0][1]}}></td>
+            <td><input name="mail" type="text" value={{user[0][2]}}></td>
+            <td><input name="password" type="text" value={{user[0][3]}}></td>
+            <td><input name="nfc_id" type="text" value={{user[0][4]}}></td>
+            <td><input name="user_flow" type="text" value={{user[0][5]}}></td>
+            <input value="Edit" type="submit" formmethod="POST">
+            <input value="Delete" type="submit">
+        </form>
+    </tr>
+    </tbody>
+
+</table>
