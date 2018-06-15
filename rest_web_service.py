@@ -9,6 +9,7 @@ from sqlalchemy_declarative import User, Keg, Base
 
 app = Flask(__name__)
 
+
 # Function to check if there is a file with given name and create new template or read given file.
 def check_cfg(file_name):
     import os.path
@@ -56,7 +57,6 @@ def write_config(config, file_name='template.cfg'):
         config.write(configfile)
 
 
-
 def connection():
     path_to_db = database
     engine = create_engine('sqlite:///' + path_to_db)
@@ -100,12 +100,12 @@ def get_data(table):
 
 
 @app.errorhandler(404)
-def not_found(error):
+def not_found():
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.errorhandler(400)
-def bad_request(error):
+def bad_request():
     return make_response(jsonify({'error': 'Bad request'}), 400)
 
 
@@ -134,7 +134,6 @@ def update_user(username):
     session = connection()
     user = session.query(User).filter(User.username == username).first()
 
-    # user.username = request.json['username']
     user.fullname = request.json['fullname']
     user.email = request.json['email']
     user.password = request.json['password']
@@ -142,7 +141,6 @@ def update_user(username):
     user.user_flow = request.json['user_flow']
 
     session.commit()
-    print jsonify({'post': request.json})
     return jsonify({'post': request.json}), 201
 
 
@@ -163,7 +161,6 @@ def insert_user():
                         user_flow=request.json['user_flow'])
         session.add(new_user)
         session.commit()
-        print jsonify({'post': request.json})
         return jsonify({'post': request.json}), 201
     except:
         return False
@@ -190,10 +187,8 @@ def update_keg(keg_id):
     session = connection()
     keg = session.query(Keg).filter(Keg.keg_id == keg_id).first()
 
-    # keg.keg_id = request.json['keg_id']
     keg.keg_flow = request.json['keg_flow']
     session.commit()
-    print jsonify({'post': request.json})
     return jsonify({'post': request.json}), 201
 
 
@@ -215,7 +210,6 @@ def insert_keg():
         return jsonify({'post': request.json}), 201
     except:
         return False
-
 
 
 if __name__ == '__main__':

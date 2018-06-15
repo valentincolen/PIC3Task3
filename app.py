@@ -18,7 +18,6 @@ def functionalities():
 
 @app.route('/show_users', methods=['GET'])
 def hist_users():
-    print web_server_link
     to_json = requests.get(web_server_link + "/show_users")
     historical_users = []
     for dictionary in to_json.json():
@@ -49,9 +48,7 @@ def delete_user(username):
 def check_user_available(info, additional_url, identification):
     response = requests.get(web_server_link + additional_url + info[identification])
     a = response.json()
-    if info[identification] == '':
-        return [False, {'error': identification + " not allowed"}]
-    elif a != {}:
+    if a != {}:
         return [False, {'error': identification + " already exist"}]
     else:
         return [True]
@@ -63,12 +60,15 @@ def new_user():
         return render_template('new_user_form.html')
     elif request.method == 'POST':
         info = get_user_form()
-        is_ok = check_user_available(info, "/show_users/", 'username')
-        if is_ok[0]:
-            requests.post(web_server_link + "/insert_user", json=info)
-            return render_template('functionalities.html')
+        if info['username'] == '':
+            return make_response(jsonify({'error': "Username not available"}), 400)
         else:
-            return make_response(jsonify(is_ok[1]), 400)
+            is_ok = check_user_available(info, "/show_users/", 'username')
+            if is_ok[0]:
+                requests.post(web_server_link + "/insert_user", json=info)
+                return render_template('functionalities.html')
+            else:
+                return make_response(jsonify(is_ok[1]), 400)
 
 
 def get_user_form():
@@ -103,8 +103,6 @@ def update_keg(keg_id):
         keg = [(a['keg_id'], a['keg_flow'])]
         return render_template('update_delete_keg_form.html', keg=keg)
 
-    print request.method
-
 
 @app.route('/show_kegs/<keg_id>/delete_update', methods=['GET', 'POST'])
 def delete_keg(keg_id):
@@ -122,12 +120,15 @@ def new_keg():
         return render_template('new_keg_form.html')
     elif request.method == 'POST':
         info = get_keg_form()
-        is_ok = check_user_available(info, "/show_kegs/", 'keg_id')
-        if is_ok[0]:
-            requests.post(web_server_link + "/insert_keg", json=info)
-            return render_template('functionalities.html')
+        if info['keg_id'] == '':
+            return make_response(jsonify({'error': "Keg_id not available"}), 400)
         else:
-            return make_response(jsonify(is_ok[1]), 400)
+            is_ok = check_user_available(info, "/show_kegs/", 'keg_id')
+            if is_ok[0]:
+                requests.post(web_server_link + "/insert_keg", json=info)
+                return render_template('functionalities.html')
+            else:
+                return make_response(jsonify(is_ok[1]), 400)
 
 
 def get_keg_form():

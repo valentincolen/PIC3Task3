@@ -11,7 +11,7 @@
     <tr>
 
         <form action="/show_kegs/{{keg[0][0]}}/delete_update">
-            <td><input name="keg_id" type="text" value={{keg[0][0]}}></td>
+            <td>{{keg[0][0]}}</td>
             <td><input name="keg_flow" type="text" value={{keg[0][1]}}></td>
 
             <input value="Edit" type="submit" formmethod="POST">
